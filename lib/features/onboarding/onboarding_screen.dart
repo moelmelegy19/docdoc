@@ -1,7 +1,10 @@
+
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import '../../core/routing/route_names.dart';
 import '../../core/theme/colors.dart';
+import '../../core/utils/app_images.dart';
 import '../../core/widgets/custom_button.dart';
-import '../auth/sign_in_screen.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
@@ -18,9 +21,16 @@ class OnboardingScreen extends StatelessWidget {
               const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.local_hospital, color: AppColors.primaryBlue, size: 32),
+                  Icon(
+                    Icons.local_hospital,
+                    color: AppColors.primaryBlue,
+                    size: 32,
+                  ),
                   SizedBox(width: 8),
-                  Text('Docdoc', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                  Text(
+                    'Docdoc',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
               const SizedBox(height: 30),
@@ -31,7 +41,7 @@ class OnboardingScreen extends StatelessWidget {
                     Align(
                       alignment: Alignment.topCenter,
                       child: Image.asset(
-                        'assets/images/doctor.png',
+                        AppImages.doctor,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -39,10 +49,7 @@ class OnboardingScreen extends StatelessWidget {
                       height: 160,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [
-                            Colors.white,
-                            Colors.white.withOpacity(0.0),
-                          ],
+                          colors: [Colors.white, Colors.white.withValues(alpha: 0.0)],
                           begin: Alignment.bottomCenter,
                           end: Alignment.topCenter,
                           stops: const [0.3, 1.0],
@@ -74,12 +81,7 @@ class OnboardingScreen extends StatelessWidget {
               const SizedBox(height: 32),
               CustomButton(
                 text: 'Get Started',
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const SignInScreen()),
-                  );
-                },
+                onPressed: () => context.go(RouteNames.signIn),
               ),
             ],
           ),

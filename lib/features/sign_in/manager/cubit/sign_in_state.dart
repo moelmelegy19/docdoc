@@ -13,3 +13,8 @@ class SignInFailure extends SignInState {
   final String errorMessage;
   SignInFailure(this.errorMessage);
 }
+
+class SignInPasswordToggled extends SignInState {
+  final bool isObscured;
+  SignInPasswordToggled(this.isObscured);
+}

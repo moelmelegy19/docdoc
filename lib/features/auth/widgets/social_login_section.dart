@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/colors.dart';
+import '../../../core/utils/app_images.dart';
 
 class SocialLoginSection extends StatelessWidget {
   const SocialLoginSection({super.key});
@@ -22,11 +23,11 @@ class SocialLoginSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _buildSocialIcon('assets/images/google.png'),
+            _buildSocialIcon(AppImages.google),
             const SizedBox(width: 20),
-            _buildSocialIcon('assets/images/facebook.png'),
+            _buildSocialIcon(AppImages.facebook),
             const SizedBox(width: 20),
-            _buildSocialIcon('assets/images/apple.png'),
+            _buildSocialIcon(AppImages.apple),
           ],
         ),
         const SizedBox(height: 32),

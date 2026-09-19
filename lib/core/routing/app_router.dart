@@ -1,14 +1,23 @@
 import 'package:go_router/go_router.dart';
 import 'package:docdoc/core/routing/route_names.dart';
+import 'package:docdoc/features/splash/splash_screen.dart';
 import 'package:docdoc/features/onboarding/onboarding_screen.dart';
 import 'package:docdoc/features/blank/blank_view.dart';
-import 'package:docdoc/features/sign_in/presentation/views/sign_in_view.dart';
+import 'package:docdoc/features/sign_in/presentation/view/sign_in_view.dart';
 import 'package:docdoc/features/sign_up/presentation/views/sign_up_view.dart';
+import 'package:docdoc/features/home/presentation/view/home_view.dart';
+import 'package:docdoc/features/profile/presentation/view/profile_view.dart';
 
 abstract class AppRouter {
   static final GoRouter router = GoRouter(
-    initialLocation: RouteNames.onboarding,
+    // Always start at splash — it decides where to go
+    initialLocation: RouteNames.splash,
     routes: [
+      GoRoute(
+        path: RouteNames.splash,
+        name: 'splash',
+        builder: (context, state) => const SplashScreen(),
+      ),
       GoRoute(
         path: RouteNames.onboarding,
         name: 'onboarding',
@@ -25,9 +34,19 @@ abstract class AppRouter {
         builder: (context, state) => const SignUpView(),
       ),
       GoRoute(
+        path: RouteNames.home,
+        name: 'home',
+        builder: (context, state) => const HomeView(),
+      ),
+      GoRoute(
         path: RouteNames.blankView,
         name: 'blankView',
         builder: (context, state) => const BlankView(),
+      ),
+      GoRoute(
+        path: RouteNames.profile,
+        name: 'profile',
+        builder: (context, state) => const ProfileView(),
       ),
     ],
   );

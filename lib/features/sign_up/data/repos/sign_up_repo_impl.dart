@@ -6,7 +6,14 @@ class SignUpRepoImpl {
 
   SignUpRepoImpl(this._apiService);
 
-  Future<dynamic> register(String name, String email, String phone, String password, String confirmPassword) async {
+  Future<dynamic> register(
+    String name,
+    String email,
+    String phone,
+    String gender,
+    String password,
+    String confirmPassword,
+  ) async {
     try {
       final response = await _apiService.post(
         endPoint: ApiConstants.registerEndPoint,
@@ -14,6 +21,7 @@ class SignUpRepoImpl {
           'name': name,
           'email': email,
           'phone': phone,
+          'gender': gender,
           'password': password,
           'password_confirmation': confirmPassword,
         },

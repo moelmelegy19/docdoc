@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:docdoc/core/theme/colors.dart';
 import 'package:docdoc/core/routing/route_names.dart';
+import 'package:docdoc/core/utils/token_storage.dart';
 import 'package:docdoc/features/auth/widgets/social_login_section.dart';
 import 'package:docdoc/features/sign_in/manager/cubit/sign_in_cubit.dart';
 import 'package:docdoc/features/sign_in/manager/cubit/sign_in_state.dart';
@@ -17,15 +18,28 @@ class SignInView extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: BlocConsumer<SignInCubit, SignInState>(
-          listener: (context, state) {
+          listener: (context, state) async {
             if (state is SignInSuccess) {
-              context.go(RouteNames.blankView);
+              final data = state.response['data'];
+              if (data != null) {
+                await TokenStorage.saveToken(
+                  data['token'] ?? '',
+                  username: data['username'],
+                );
+              }
+              if (!context.mounted) return;
+              context.go(RouteNames.home);
             }
             if (state is SignInFailure) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  backgroundColor: Colors.red,
-                  content: Text(state.errorMessage),
+                  backgroundColor: Colors.redAccent,
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  content: Text(
+                    state.errorMessage,
+                    style: const TextStyle(color: Colors.white),
+                  ),
                 ),
               );
             }
@@ -40,7 +54,7 @@ class SignInView extends StatelessWidget {
                   const Text(
                     'Welcome Back',
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 26,
                       fontWeight: FontWeight.bold,
                       color: AppColors.primaryBlue,
                     ),
@@ -48,30 +62,20 @@ class SignInView extends StatelessWidget {
                   const SizedBox(height: 8),
                   const Text(
                     "We're excited to have you back, can't wait to see what you've been up to since you last logged in.",
-                    style: TextStyle(fontSize: 14, color: AppColors.greyText),
+                    style: TextStyle(fontSize: 14, color: AppColors.greyText, height: 1.5),
                   ),
                   const SizedBox(height: 36),
                   const SignInForm(),
-                  if (state is SignInLoading)
-                    const Padding(
-                      padding: EdgeInsets.only(top: 20.0),
-                      child: Center(child: CircularProgressIndicator()),
-                    ),
                   const SizedBox(height: 40),
                   const SocialLoginSection(),
                   const SizedBox(height: 20),
                   Center(
                     child: GestureDetector(
-                      onTap: () {
-                        context.push(RouteNames.signUp);
-                      },
+                      onTap: () => context.push(RouteNames.signUp),
                       child: RichText(
                         text: const TextSpan(
                           text: "Don't have an account yet? ",
-                          style: TextStyle(
-                            color: AppColors.greyText,
-                            fontSize: 12,
-                          ),
+                          style: TextStyle(color: AppColors.greyText, fontSize: 13),
                           children: [
                             TextSpan(
                               text: 'Sign Up',
